@@ -28,32 +28,8 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-
-# Raspberry Pi pin configuration:
-RST = 24
-# Note the following are only used with SPI:
-DC = 23
-SPI_PORT = 0
-SPI_DEVICE = 0
-
-# Beaglebone Black pin configuration:
-# RST = 'P9_12'
-# Note the following are only used with SPI:
-# DC = 'P9_15'
-# SPI_PORT = 1
-# SPI_DEVICE = 0
-
 # 128x32 display with hardware I2C:
-disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST)
-
-# 128x64 display with hardware I2C:
-# disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
-
-# 128x32 display with hardware SPI:
-# disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000))
-
-# 128x64 display with hardware SPI:
-# disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000))
+disp = Adafruit_SSD1306.SSD1306_128_32(rst=None)
 
 # Initialize library.
 disp.begin()
@@ -66,21 +42,12 @@ height = disp.height
 disp.clear()
 disp.display()
 
-# Create image buffer.
-# Make sure to create image with mode '1' for 1-bit color.
+# setup font etc
 image = Image.new('1', (width, height))
+font = ImageFont.truetype('NotoSans-Black.ttf', 40)
 
-# Load default font.
-font = ImageFont.load_default()
-
-# Alternatively load a TTF font.  Make sure the .ttf font file is in the same directory as this python script!
-# Some nice fonts to try: http://www.dafont.com/bitmap.php
-font = ImageFont.truetype('NotoSans-Regular.ttf', 8)
-
-# Create drawing object.
 draw = ImageDraw.Draw(image)
-
 draw.rectangle((0,0,width,height), outline=0, fill=0)
-draw.text((0, 0), '1', font=font, fill=255)
+draw.text((40, -12), '1', font=font, fill=255)
 disp.image(image)
 disp.display()
